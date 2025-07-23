@@ -26,7 +26,7 @@ private UserRepo userRepo;
 
     public void saveUserEntry(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if(user.getRoles().isEmpty()) {
+        if(user.getRoles()==null) {
             user.setRoles(Arrays.asList("USER"));
         }else{
             user.setRoles(user.getRoles());
