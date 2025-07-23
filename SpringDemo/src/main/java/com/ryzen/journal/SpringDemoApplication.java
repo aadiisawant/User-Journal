@@ -1,4 +1,4 @@
-package com.ryzen.SpringDemo;
+package com.ryzen.journal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

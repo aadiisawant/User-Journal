@@ -1,4 +1,4 @@
-package com.ryzen.SpringDemo.entity;
+package com.ryzen.journal.entity;
 
 import lombok.Data;
 import lombok.NonNull;

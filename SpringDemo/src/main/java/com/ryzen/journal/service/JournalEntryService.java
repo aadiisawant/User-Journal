@@ -1,8 +1,8 @@
-package com.ryzen.SpringDemo.service;
+package com.ryzen.journal.service;
 
-import com.ryzen.SpringDemo.entity.JournalEntity;
-import com.ryzen.SpringDemo.entity.User;
-import com.ryzen.SpringDemo.repository.JournalEntryRepo;
+import com.ryzen.journal.entity.JournalEntity;
+import com.ryzen.journal.entity.User;
+import com.ryzen.journal.repository.JournalEntryRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,9 +24,10 @@ public class JournalEntryService {
         User user = userService.findByUserName(username);
         JournalEntity journalSaved = journalEntryRepo.save(journalEntity);
         user.getJournalEntries().add(journalSaved);
-        userService.saveUserEntry(user);
+        userService.saveUserJournal(user);
     }
 
+    //method name has to be changed...
     public void saveJournalEntry(JournalEntity journalEntity){
         JournalEntity journalSaved = journalEntryRepo.save(journalEntity);
     }
@@ -35,11 +36,16 @@ public class JournalEntryService {
        return journalEntryRepo.findById(Id);
     }
 
-    public void deleteJournalById(ObjectId id ,String username){
+    @Transactional
+    public boolean deleteJournalById(ObjectId id ,String username){
+        boolean isDeleted = false;
         User user = userService.findByUserName(username);
-        System.out.println(user);
-        user.getJournalEntries().removeIf(x -> x.getId().equals(id));
-        journalEntryRepo.deleteById(id);
+        isDeleted = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+        if(isDeleted) {
+            userService.saveUserJournal(user);
+            journalEntryRepo.deleteById(id);
+        }
+        return isDeleted;
     }
 
     public List<JournalEntity> getAll(){

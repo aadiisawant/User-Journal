@@ -1,7 +1,7 @@
-package com.ryzen.SpringDemo.service;
+package com.ryzen.journal.service;
 
-import com.ryzen.SpringDemo.entity.User;
-import com.ryzen.SpringDemo.repository.UserRepo;
+import com.ryzen.journal.entity.User;
+import com.ryzen.journal.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
