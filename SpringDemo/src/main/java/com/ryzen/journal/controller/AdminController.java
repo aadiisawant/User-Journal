@@ -9,9 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +24,11 @@ public class AdminController {
     @Autowired
     private JournalEntryService journalEntryService;
 
+    @PostMapping("/create-admin")
+    public String createUser(@RequestBody User user){
+        userService.saveNewAdmin(user);
+        return "Admin Created.";
+    }
     @GetMapping("/get-all-users")
     public ResponseEntity<?>  getAll(){
 

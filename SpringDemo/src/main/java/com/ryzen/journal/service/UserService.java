@@ -26,11 +26,13 @@ private UserRepo userRepo;
 
     public void saveUserEntry(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if(user.getRoles()==null) {
-            user.setRoles(Arrays.asList("USER"));
-        }else{
-            user.setRoles(user.getRoles());
-        }
+        user.setRoles(Arrays.asList("USER"));
+        userRepo.save(user);
+    }
+
+    public void saveNewAdmin(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Arrays.asList("USER","ADMIN"));
         userRepo.save(user);
     }
 
