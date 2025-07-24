@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin")
@@ -26,19 +27,26 @@ public class AdminController {
     private JournalEntryService journalEntryService;
 
     @GetMapping("/get-all-users")
-    public List<User> getAll(){
-        return userService.getAll();
+    public ResponseEntity<?>  getAll(){
+
+        List<User> users = userService.getAll();
+        if(users!=null && !users.isEmpty()){
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
     @GetMapping("/get-all-journals")
     public ResponseEntity<?> getAllJournalEntriesFromDB(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        User user = userService.findByUserName(userName);
-        List<JournalEntity>listOfAll = journalEntryService.getAll();
-        if(listOfAll!=null && !listOfAll.isEmpty()){
-            return new ResponseEntity<>(listOfAll, HttpStatus.OK);
+
+        List<JournalEntity> journals = journalEntryService.getAll();
+        if(journals!=null && !journals.isEmpty()){
+            return new ResponseEntity<>(journals, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+
 }
