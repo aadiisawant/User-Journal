@@ -25,9 +25,24 @@ private UserRepo userRepo;
 //    }
 
     public void saveUserEntry(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER"));
-        userRepo.save(user);
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            userRepo.save(user);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public boolean saveUserTests(User user){
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            userRepo.save(user);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     public void saveNewAdmin(User user){
