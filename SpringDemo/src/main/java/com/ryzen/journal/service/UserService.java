@@ -2,6 +2,7 @@ package com.ryzen.journal.service;
 
 import com.ryzen.journal.entity.User;
 import com.ryzen.journal.repository.UserRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class UserService {
 
 @Autowired
@@ -22,19 +24,17 @@ private UserRepo userRepo;
 
     private static final PasswordEncoder  passwordEncoder = new BCryptPasswordEncoder();
 
-//    public void saveUserEntry(User user){
-//        userRepo.save(user);
-//    }
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+//    private static final Logger logger = LoggerFactory.getLogger(UserService.class); //used slf4j annotation
     public boolean saveUserEntry(User user){
         if(!userRepo.existsByUsername(user.getUsername())) {
             try {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
                 user.setRoles(Arrays.asList("USER"));
                 userRepo.save(user);
+                log.info("User {} created.", user.getUsername());
                 return true;
             } catch (Exception e) {
-                logger.error("Error occured for {}: ", user.getUsername());
+                log.error("Error occured for {}: ", user.getUsername());
                 //            e.printStackTrace();
             }
         }
