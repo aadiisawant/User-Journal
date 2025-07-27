@@ -70,6 +70,10 @@ private UserRepo userRepo;
     }
 
     public List<User> getAll(){
+        log.info("All users fetched");
+//        log.error("All users fetched");
+//        log.debug("All users fetched");
+//        log.warn("All users fetched");
         return userRepo.findAll();
     }
 

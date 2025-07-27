@@ -8,3 +8,9 @@ spring:
       auto-index-creation: true
   profiles:
     active: dev
+
+#logging:
+#  level:
+#    com:
+#      ryzen:
+#        journal: ERROR
