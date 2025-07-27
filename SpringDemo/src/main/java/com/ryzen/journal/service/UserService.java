@@ -3,6 +3,8 @@ package com.ryzen.journal.service;
 import com.ryzen.journal.entity.User;
 import com.ryzen.journal.repository.UserRepo;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,15 +25,20 @@ private UserRepo userRepo;
 //    public void saveUserEntry(User user){
 //        userRepo.save(user);
 //    }
-
-    public void saveUserEntry(User user){
-        try {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRoles(Arrays.asList("USER"));
-            userRepo.save(user);
-        }catch (Exception e){
-            e.printStackTrace();
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    public boolean saveUserEntry(User user){
+        if(!userRepo.existsByUsername(user.getUsername())) {
+            try {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+                user.setRoles(Arrays.asList("USER"));
+                userRepo.save(user);
+                return true;
+            } catch (Exception e) {
+                logger.error("Error occured for {}: ", user.getUsername());
+                //            e.printStackTrace();
+            }
         }
+        return false;
     }
 
     public boolean saveUserTests(User user){

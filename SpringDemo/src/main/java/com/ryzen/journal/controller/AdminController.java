@@ -25,10 +25,21 @@ public class AdminController {
     private JournalEntryService journalEntryService;
 
     @PostMapping("/create-admin")
-    public String createUser(@RequestBody User user){
+    public String createAdmin(@RequestBody User user){
         userService.saveNewAdmin(user);
         return "Admin Created.";
     }
+
+    @PostMapping("/create-user")
+    public ResponseEntity<?> createUser(@RequestBody User user){
+        boolean isCreated = false;
+        isCreated = userService.saveUserEntry(user);
+        if(isCreated){
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>("Username already exists",HttpStatus.CONFLICT);
+    }
+
     @GetMapping("/get-all-users")
     public ResponseEntity<?>  getAll(){
 
