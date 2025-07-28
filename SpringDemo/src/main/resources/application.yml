@@ -14,3 +14,9 @@ spring:
 #    com:
 #      ryzen:
 #        journal: ERROR
+
+#for @value purpose
+app:
+  user:
+    name: aditya
+    city: pune
