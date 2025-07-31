@@ -1,5 +1,6 @@
 package com.ryzen.journal.service;
 
+import com.ryzen.journal.cache.APICache;
 import com.ryzen.journal.pojo.DummyUser;
 import com.ryzen.journal.pojo.DummyUserResponse;
 import lombok.Data;
@@ -15,7 +16,9 @@ import java.util.List;
 @Service
 public class DummyUsersAPI {
 
-    private String API = "https://dummyjson.com/users";
+    @Autowired
+    private APICache apiCache;
+    private String API;
 
     @Autowired
     RestTemplate restTemplate;
@@ -23,6 +26,7 @@ public class DummyUsersAPI {
     List<DummyUser> users;
 
     public void getUsers(){
+        API = apiCache.API_CACHE.get("DUMMYAPI");
         ResponseEntity<DummyUserResponse> response = restTemplate.exchange(API, HttpMethod.GET, null , DummyUserResponse.class );
         DummyUserResponse dummyUserResponse = response.getBody();
         if (dummyUserResponse != null && dummyUserResponse.getUsers() != null) {
