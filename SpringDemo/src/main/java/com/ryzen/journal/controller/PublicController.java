@@ -2,6 +2,7 @@ package com.ryzen.journal.controller;
 
 import com.ryzen.journal.entity.User;
 import com.ryzen.journal.repository.UserRepo;
+import com.ryzen.journal.service.DummyUsersAPI;
 import com.ryzen.journal.service.UserService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class PublicController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DummyUsersAPI dummyUsersAPI;
     @Autowired
     private UserRepo userRepo;
     @PostMapping("/create-user")
@@ -36,5 +39,11 @@ public class PublicController {
     @GetMapping
     public String getUserNCity(){
         return "I'm "+name+" from "+city+".";
+    }
+
+    @GetMapping("/getusers")
+    public String getUsers(){
+        dummyUsersAPI.getUsers();
+        return "Fetched...";
     }
 }
