@@ -3,8 +3,6 @@ package com.ryzen.journal.service;
 import com.ryzen.journal.cache.APICache;
 import com.ryzen.journal.pojo.DummyUser;
 import com.ryzen.journal.pojo.DummyUserResponse;
-import lombok.Data;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +21,15 @@ public class DummyUsersAPI {
     @Autowired
     RestTemplate restTemplate;
 
-    List<DummyUser> users;
-
     public void getUsers(){
         API = apiCache.API_CACHE.get("DUMMYAPI");
         ResponseEntity<DummyUserResponse> response = restTemplate.exchange(API, HttpMethod.GET, null , DummyUserResponse.class );
         DummyUserResponse dummyUserResponse = response.getBody();
-        if (dummyUserResponse != null && dummyUserResponse.getUsers() != null) {
-            List<DummyUser> users = dummyUserResponse.getUsers();
+        List<DummyUser> users = dummyUserResponse.getUsers();
+        if (users != null) {
             users.forEach(user -> System.out.println(user.getId() + " - " + user.getFirstName()));
         } else {
-            System.out.println("No users found or response is null");
+            System.out.println("No users found, response is null");
         }
 
     }
