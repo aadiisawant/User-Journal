@@ -16,7 +16,9 @@ public class UserRepoCriteriaImpl {
     private MongoTemplate mongoTemplate;
     public List<User> getUserForSA(){
         Query query = new Query();
-        query.addCriteria(Criteria.where("username").is("aditya"));
+//        query.addCriteria(Criteria.where("username").is("aditya"));
+        query.addCriteria(Criteria.where("email").exists(true).ne(null).ne(""));
+        query.addCriteria(Criteria.where("sentimentalAnalysis").is(true));
         List<User> users = mongoTemplate.find(query, User.class);
         return users;
     }
